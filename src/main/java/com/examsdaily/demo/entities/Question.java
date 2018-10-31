@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * 
@@ -26,6 +28,10 @@ public class Question {
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Answer> answers = new ArrayList<Answer>();
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "correctAnswer")
+	private CorrectAnswer correctAnswer;
 
 	private Boolean success = Boolean.FALSE;
 
@@ -69,7 +75,8 @@ public class Question {
 	 * @param questionNumber
 	 *            the questionNumber to set
 	 */
-	public void setQuestionNumber(String questionNumber) {new ArrayList<Answer>();
+	public void setQuestionNumber(String questionNumber) {
+		new ArrayList<Answer>();
 		this.questionNumber = questionNumber;
 	}
 
@@ -116,6 +123,21 @@ public class Question {
 	 */
 	public void setSuccess(Boolean success) {
 		this.success = success;
+	}
+
+	/**
+	 * @return the correctAnswer
+	 */
+	public CorrectAnswer getCorrectAnswer() {
+		return correctAnswer;
+	}
+
+	/**
+	 * @param correctAnswer
+	 *            the correctAnswer to set
+	 */
+	public void setCorrectAnswer(CorrectAnswer correctAnswer) {
+		this.correctAnswer = correctAnswer;
 	}
 
 }

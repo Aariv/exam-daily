@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.examsdaily.demo.entities.Answer;
+import com.examsdaily.demo.entities.CorrectAnswer;
 import com.examsdaily.demo.entities.Question;
 import com.examsdaily.demo.repositories.QuestionRepository;
 import com.examsdaily.demo.service.DocumentService;
@@ -64,6 +65,7 @@ public class DocumentServiceImpl implements DocumentService {
 			List<Question> questionBanks = new ArrayList<>();
 			StringBuilder question = new StringBuilder();
 			List<Answer> options = new ArrayList<Answer>();
+			CorrectAnswer correctAnswer = new CorrectAnswer();
 			for (XWPFParagraph para : paragraphs) {
 				String text = para.getText();
 				if (text.startsWith("Q")) {
@@ -78,6 +80,9 @@ public class DocumentServiceImpl implements DocumentService {
 					option.setOption(optionString.trim());
 					option.setAnswer(answer.trim());
 					options.add(option);
+					
+					correctAnswer.setAnswer(answer.trim());
+					correctAnswer.setOption(optionString.trim());
 				} else {
 					// option
 					Answer option = new Answer();
@@ -104,6 +109,12 @@ public class DocumentServiceImpl implements DocumentService {
 						answer.setQuestion(questionBank);
 					});
 					
+					questionBank.setCorrectAnswer(correctAnswer);
+					
+					questionBank.setCorrectAnswer(correctAnswer);
+					
+					correctAnswer.setQuestion(questionBank);
+					
 					questionBank.setSuccess(Boolean.TRUE);
 					
 					questionRepository.save(questionBank);
@@ -112,6 +123,7 @@ public class DocumentServiceImpl implements DocumentService {
 					
 					options = new ArrayList<Answer>();
 					question = new StringBuilder();
+					correctAnswer = new CorrectAnswer();
 				}
 			}
 			return questionBanks;
